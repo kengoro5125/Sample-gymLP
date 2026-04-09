@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-STYLE | パーソナルジム</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --black:      #0d0d0d;
+            --dark:       #1a1a1a;
+            --dark2:      #222222;
+            --gold:       #c9a84c;
+            --gold-light: #e8c97a;
+            --white:      #ffffff;
+            --gray:       #888888;
+            --border:     #2a2a2a;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ─── NAV ─────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(13,13,13,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201,168,76,0.15);
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 5px;
+            color: var(--gold);
+        }
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-cta {
+            background: var(--gold) !important;
+            color: var(--black) !important;
+            padding: 10px 26px !important;
+            font-weight: 700 !important;
+            letter-spacing: 1px !important;
+            transition: background 0.3s !important;
+        }
+        .nav-cta:hover { background: var(--gold-light) !important; }
+
+        /* ─── HERO ────────────────────────────────────────── */
+        #hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1534438327431-a18264b9f1c6?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center 30%;
+            filter: brightness(0.25);
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 40%, var(--black) 100%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            padding: 0 24px;
+        }
+        .hero-label {
+            display: inline-block;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-size: 11px;
+            letter-spacing: 5px;
+            padding: 7px 22px;
+            margin-bottom: 36px;
+        }
+        .hero-title {
+            font-size: clamp(44px, 8vw, 88px);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 22px;
+            letter-spacing: 2px;
+        }
+        .hero-title .gold { color: var(--gold); }
+        .hero-subtitle {
+            font-size: 15px;
+            color: #bbbbbb;
+            margin-bottom: 54px;
+            letter-spacing: 4px;
+        }
+        .btn-primary {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--black);
+            font-size: 15px;
+            font-weight: 900;
+            padding: 20px 64px;
+            letter-spacing: 3px;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border: 1px solid var(--gold);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-primary:hover { background: var(--gold-light); }
+        .btn-primary:hover::before { opacity: 1; }
+        .hero-note {
+            margin-top: 18px;
+            font-size: 12px;
+            color: var(--gray);
+            letter-spacing: 1px;
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--gray);
+            font-size: 10px;
+            letter-spacing: 4px;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 56px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollAnim 2s ease-in-out infinite;
+        }
+        @keyframes scrollAnim {
+            0%   { transform: scaleY(0); transform-origin: top; }
+            49%  { transform: scaleY(1); transform-origin: top; }
+            50%  { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        /* ─── COMMON SECTION ─────────────────────────────── */
+        section { padding: 110px 50px; }
+        .section-label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 5px;
+            color: var(--gold);
+            margin-bottom: 14px;
+        }
+        .section-title {
+            font-size: clamp(28px, 4vw, 46px);
+            font-weight: 900;
+            line-height: 1.3;
+            margin-bottom: 18px;
+        }
+        .section-title .gold { color: var(--gold); }
+        .section-desc {
+            color: var(--gray);
+            font-size: 14px;
+            line-height: 2;
+        }
+        .center { text-align: center; }
+
+        /* ─── PAIN ───────────────────────────────────────── */
+        #pain { background: var(--dark); }
+        .pain-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 90px;
+            align-items: center;
+        }
+        .pain-img-wrap {
+            position: relative;
+        }
+        .pain-img-wrap::before {
+            content: '';
+            position: absolute;
+            top: -16px; left: -16px;
+            right: -16px; bottom: -16px;
+            border: 1px solid var(--gold);
+            z-index: 0;
+        }
+        .pain-img-wrap img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.65);
+        }
+        .pain-list { list-style: none; }
+        .pain-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 15px;
+            color: #cccccc;
+        }
+        .pain-list li:first-child { border-top: 1px solid var(--border); }
+        .pain-check {
+            color: var(--gold);
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        /* ─── ABOUT ──────────────────────────────────────── */
+        #about { background: var(--black); }
+        .about-inner { max-width: 1000px; margin: 0 auto; }
+        .about-copy {
+            font-size: clamp(20px, 3vw, 30px);
+            font-weight: 900;
+            line-height: 1.75;
+            margin: 40px 0 18px;
+        }
+        .about-copy .gold { color: var(--gold); }
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--border);
+            margin: 60px 0;
+        }
+        .stat {
+            background: var(--dark);
+            padding: 48px 20px;
+            text-align: center;
+        }
+        .stat-num {
+            display: block;
+            font-size: 56px;
+            font-weight: 900;
+            color: var(--gold);
+            line-height: 1;
+        }
+        .stat-unit { font-size: 22px; color: var(--gold); }
+        .stat-label {
+            display: block;
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 12px;
+            letter-spacing: 2px;
+        }
+
+        /* ─── FEATURES ───────────────────────────────────── */
+        #features { background: var(--dark); }
+        .features-inner { max-width: 1200px; margin: 0 auto; }
+        .features-header { margin-bottom: 70px; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--border);
+        }
+        .feature-card {
+            background: var(--dark);
+            padding: 60px 40px;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .feature-card:hover { background: #212121; }
+        .feature-num {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin-bottom: 28px;
+        }
+        .feature-icon {
+            width: 140px; height: 140px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 30px;
+        }
+        .feature-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .feature-title {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .feature-desc {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 2;
+        }
+
+        /* ─── MENU ───────────────────────────────────────── */
+        #menu { background: var(--black); }
+        .menu-inner { max-width: 1200px; margin: 0 auto; }
+        .menu-header { margin-bottom: 70px; }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+            background: var(--border);
+        }
+        .menu-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .menu-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            transition: transform 0.6s, filter 0.6s;
+            filter: brightness(0.85);
+            display: block;
+        }
+        .menu-card:hover img {
+            transform: scale(1.06);
+            filter: brightness(0.55);
+        }
+        .menu-card-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+        }
+        .menu-card-en {
+            font-size: 10px;
+            letter-spacing: 5px;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+        .menu-card-title {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        .menu-card-desc {
+            font-size: 13px;
+            color: #cccccc;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s, transform 0.35s;
+        }
+        .menu-card:hover .menu-card-desc {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── PRICING ────────────────────────────────────── */
+        #pricing { background: var(--dark); }
+        .pricing-inner { max-width: 1000px; margin: 0 auto; }
+        .pricing-header { margin-bottom: 70px; }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--border);
+            margin-bottom: 28px;
+        }
+        .pricing-card {
+            background: var(--dark);
+            padding: 52px 30px;
+            text-align: center;
+            position: relative;
+        }
+        .pricing-card.featured {
+            background: #1c1810;
+            border: 1px solid var(--gold);
+            z-index: 1;
+        }
+        .pricing-badge {
+            position: absolute;
+            top: -13px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--black);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 18px;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+        .pricing-plan {
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin-bottom: 22px;
+        }
+        .pricing-price {
+            font-size: 44px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .pricing-price span { font-size: 16px; font-weight: 400; color: var(--gray); }
+        .pricing-period { font-size: 12px; color: var(--gray); margin-bottom: 30px; }
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        .pricing-features li {
+            padding: 10px 0;
+            font-size: 13px;
+            color: #cccccc;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pricing-features li::before { content: '—'; color: var(--gold); }
+        .pricing-note {
+            font-size: 12px;
+            color: var(--gray);
+            line-height: 2;
+            text-align: center;
+        }
+
+        /* ─── TESTIMONIALS ───────────────────────────────── */
+        #testimonials { background: var(--black); }
+        .testimonials-inner { max-width: 1200px; margin: 0 auto; }
+        .testimonials-header { margin-bottom: 70px; }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--border);
+        }
+        .testimonial-card {
+            background: var(--dark);
+            padding: 50px 36px;
+        }
+        .testimonial-quote {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 22px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+        .testimonial-text {
+            font-size: 14px;
+            color: #cccccc;
+            line-height: 2;
+            margin-bottom: 28px;
+        }
+        .testimonial-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-top: 22px;
+            border-top: 1px solid var(--border);
+        }
+        .testimonial-avatar {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            filter: brightness(0.85);
+            flex-shrink: 0;
+        }
+        .testimonial-name { font-size: 14px; font-weight: 700; }
+        .testimonial-meta { font-size: 11px; color: var(--gold); letter-spacing: 1px; margin-top: 3px; }
+
+        /* ─── FAQ ────────────────────────────────────────── */
+        #faq { background: var(--dark); }
+        .faq-inner { max-width: 820px; margin: 0 auto; }
+        .faq-header { margin-bottom: 70px; }
+        .faq-item { border-bottom: 1px solid var(--border); }
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 15px;
+            font-weight: 700;
+            text-align: left;
+            padding: 28px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            font-family: inherit;
+            transition: color 0.3s;
+        }
+        .faq-question:hover { color: var(--gold); }
+        .faq-icon {
+            width: 30px; height: 30px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--gold);
+            font-size: 18px;
+            line-height: 1;
+            transition: transform 0.3s;
+        }
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 2;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            padding-bottom: 28px;
+        }
+
+        /* ─── CTA ────────────────────────────────────────── */
+        #cta {
+            padding: 140px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.12);
+        }
+        .cta-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(13,13,13,0.5);
+        }
+        .cta-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        .cta-title {
+            font-size: clamp(34px, 5.5vw, 58px);
+            font-weight: 900;
+            line-height: 1.3;
+            margin-bottom: 18px;
+        }
+        .cta-title .gold { color: var(--gold); }
+        .cta-desc {
+            font-size: 15px;
+            color: #bbbbbb;
+            margin-bottom: 52px;
+            line-height: 2;
+        }
+        .btn-cta {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--black);
+            font-size: 16px;
+            font-weight: 900;
+            padding: 22px 72px;
+            letter-spacing: 3px;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-bottom: 18px;
+        }
+        .btn-cta:hover { background: var(--gold-light); transform: translateY(-3px); }
+        .cta-note { font-size: 12px; color: var(--gray); letter-spacing: 1px; }
+
+        /* ─── FOOTER ─────────────────────────────────────── */
+        footer {
+            background: #080808;
+            padding: 70px 50px 32px;
+        }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 70px;
+            padding-bottom: 52px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 28px;
+        }
+        .footer-logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--gold);
+            letter-spacing: 5px;
+            margin-bottom: 16px;
+        }
+        .footer-tagline { font-size: 13px; color: var(--gray); line-height: 2; }
+        .footer-heading { font-size: 11px; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a {
+            font-size: 13px;
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover { color: var(--gold); }
+        .footer-info p { font-size: 13px; color: var(--gray); margin-bottom: 9px; display: flex; gap: 12px; }
+        .info-label { color: var(--gold); min-width: 60px; flex-shrink: 0; }
+        .footer-bottom { text-align: center; font-size: 11px; color: #444; letter-spacing: 1px; }
+
+        /* ─── FADE-IN ANIMATION ──────────────────────────── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── RESPONSIVE ─────────────────────────────────── */
+        @media (max-width: 900px) {
+            nav { padding: 16px 24px; }
+            .nav-links { display: none; }
+            section { padding: 70px 24px; }
+            #cta { padding: 90px 24px; }
+            footer { padding: 60px 24px 28px; }
+
+            .pain-inner { grid-template-columns: 1fr; gap: 0; }
+            .pain-img-wrap { display: none; }
+
+            .about-stats { grid-template-columns: 1fr; }
+
+            .features-grid { grid-template-columns: 1fr; }
+
+            .menu-grid { grid-template-columns: 1fr; }
+            .menu-card-desc { opacity: 1; transform: none; }
+
+            .pricing-grid { grid-template-columns: 1fr; }
+
+            .testimonials-grid { grid-template-columns: 1fr; }
+
+            .footer-top { grid-template-columns: 1fr; gap: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ====== NAV ====== -->
+<nav>
+    <div class="logo">K-STYLE</div>
+    <ul class="nav-links">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#features">FEATURES</a></li>
+        <li><a href="#menu">MENU</a></li>
+        <li><a href="#pricing">PRICE</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#cta" class="nav-cta">無料体験</a></li>
+    </ul>
+</nav>
+
+<!-- ====== HERO ====== -->
+<section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <span class="hero-label">PERSONAL GYM K-STYLE</span>
+        <h1 class="hero-title">
+            あなたの体を、<br>
+            <span class="gold">本気で変える。</span>
+        </h1>
+        <p class="hero-subtitle">マンツーマン × 完全予約制 × プロの指導</p>
+        <a href="#cta" class="btn-primary">無料体験を申し込む</a>
+        <p class="hero-note">※ 入会強制一切なし・手ぶらでOK</p>
+    </div>
+    <div class="scroll-indicator">
+        <span>SCROLL</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- ====== PAIN ====== -->
+<section id="pain">
+    <div class="pain-inner">
+        <div class="pain-img-wrap fade-in">
+            <img
+                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80"
+                alt="運動で悩む人">
+        </div>
+        <div class="fade-in">
+            <span class="section-label">PROBLEM</span>
+            <h2 class="section-title">こんなお悩み、<br>ありませんか？</h2>
+            <ul class="pain-list">
+                <li><span class="pain-check">✔</span>仕事が忙しくて運動する時間が取れない</li>
+                <li><span class="pain-check">✔</span>ジムに通っても何をすればいいかわからない</li>
+                <li><span class="pain-check">✔</span>一人だとモチベーションがどうしても続かない</li>
+                <li><span class="pain-check">✔</span>他の人の目線が気になって集中できない</li>
+                <li><span class="pain-check">✔</span>食事制限だけでは限界を感じている</li>
+                <li><span class="pain-check">✔</span>何度ダイエットに挑戦しても続かなかった</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== ABOUT ====== -->
+<section id="about">
+    <div class="about-inner center">
+        <span class="section-label">ABOUT K-STYLE</span>
+        <p class="about-copy fade-in">
+            K-STYLEは、<span class="gold">あなただけの</span>トレーニングで<br>
+            確実に結果を出すパーソナルジムです。
+        </p>
+        <p class="section-desc fade-in">
+            30〜40代の「忙しいけど変わりたい」という方に寄り添い、<br>
+            専属トレーナーがマンツーマンで最適なプログラムを提供。<br>
+            完全予約制だから、周りを気にせず自分のペースで取り組めます。
+        </p>
+        <div class="about-stats fade-in">
+            <div class="stat">
+                <span class="stat-num">500<span class="stat-unit">+</span></span>
+                <span class="stat-label">累計会員数</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num">92<span class="stat-unit">%</span></span>
+                <span class="stat-label">3ヶ月継続率</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num">8<span class="stat-unit">年</span></span>
+                <span class="stat-label">トレーナー平均経験年数</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FEATURES ====== -->
+<section id="features">
+    <div class="features-inner">
+        <div class="features-header center fade-in">
+            <span class="section-label">FEATURES</span>
+            <h2 class="section-title">K-STYLEが<span class="gold">選ばれる</span>理由</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <span class="feature-num">— 01 —</span>
+                <div class="feature-icon">
+                    <img src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?auto=format&fit=crop&w=300&q=80" alt="マンツーマン指導">
+                </div>
+                <h3 class="feature-title">完全マンツーマン</h3>
+                <p class="feature-desc">専属トレーナーが1対1で指導。あなたの体の状態・目標に合わせた完全オーダーメイドプログラムで、最短ルートで目標達成へ導きます。</p>
+            </div>
+            <div class="feature-card fade-in">
+                <span class="feature-num">— 02 —</span>
+                <div class="feature-icon">
+                    <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=300&q=80" alt="完全予約制">
+                </div>
+                <h3 class="feature-title">完全予約制</h3>
+                <p class="feature-desc">待ち時間ゼロ。器具の空き待ちもなし。予約した時間はあなただけのプライベート空間。仕事終わりや週末のすき間時間にも無理なく通えます。</p>
+            </div>
+            <div class="feature-card fade-in">
+                <span class="feature-num">— 03 —</span>
+                <div class="feature-icon">
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=300&q=80" alt="食事サポート">
+                </div>
+                <h3 class="feature-title">食事サポート付き</h3>
+                <p class="feature-desc">トレーニングだけでなく日々の食事も無理なく改善。「食べながら痩せる」を実現するサポートで、リバウンドしにくい体を根本から作ります。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== MENU ====== -->
+<section id="menu">
+    <div class="menu-inner">
+        <div class="menu-header center fade-in">
+            <span class="section-label">TRAINING MENU</span>
+            <h2 class="section-title">目標に合わせた<span class="gold">メニュー</span></h2>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-card fade-in">
+                <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&w=900&q=80" alt="ダイエット" style="filter: brightness(1.2);">
+                <div class="menu-card-content">
+                    <span class="menu-card-en">DIET</span>
+                    <h3 class="menu-card-title">ダイエット</h3>
+                    <p class="menu-card-desc">有酸素×筋トレの最適な組み合わせで体脂肪を効率よく燃焼。食事管理との組み合わせで確実に結果を出します。</p>
+                </div>
+            </div>
+            <div class="menu-card fade-in">
+                <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=80" alt="筋力アップ">
+                <div class="menu-card-content">
+                    <span class="menu-card-en">MUSCLE</span>
+                    <h3 class="menu-card-title">筋力アップ</h3>
+                    <p class="menu-card-desc">正しいフォームと適切な負荷設定で、安全かつ効果的に筋肉を増やします。基礎代謝を上げてリバウンドしない体へ。</p>
+                </div>
+            </div>
+            <div class="menu-card fade-in">
+                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=80" alt="姿勢改善">
+                <div class="menu-card-content">
+                    <span class="menu-card-en">POSTURE</span>
+                    <h3 class="menu-card-title">姿勢改善</h3>
+                    <p class="menu-card-desc">デスクワークで崩れた体のバランスを整え、肩こり・腰痛を根本改善。見た目も美しく、疲れにくい体を作ります。</p>
+                </div>
+            </div>
+            <div class="menu-card fade-in">
+                <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=900&q=80" alt="健康維持">
+                <div class="menu-card-content">
+                    <span class="menu-card-en">HEALTH</span>
+                    <h3 class="menu-card-title">健康維持</h3>
+                    <p class="menu-card-desc">生活習慣病の予防、体力・免疫力の向上。無理なく続けられる運動習慣の定着をトレーナーが丁寧にサポートします。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== PRICING ====== -->
+<section id="pricing">
+    <div class="pricing-inner">
+        <div class="pricing-header center fade-in">
+            <span class="section-label">PRICE</span>
+            <h2 class="section-title">料金<span class="gold">プラン</span></h2>
+            <p class="section-desc">入会金・解約金なし。まずは無料体験からお気軽にどうぞ。</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card fade-in">
+                <p class="pricing-plan">LIGHT</p>
+                <p class="pricing-price">29,800<span>円</span></p>
+                <p class="pricing-period">月額（月4回）</p>
+                <ul class="pricing-features">
+                    <li>マンツーマン指導 月4回</li>
+                    <li>初回カウンセリング</li>
+                    <li>食事アドバイス</li>
+                </ul>
+            </div>
+            <div class="pricing-card featured fade-in">
+                <span class="pricing-badge">人気 No.1</span>
+                <p class="pricing-plan">STANDARD</p>
+                <p class="pricing-price">49,800<span>円</span></p>
+                <p class="pricing-period">月額（月8回）</p>
+                <ul class="pricing-features">
+                    <li>マンツーマン指導 月8回</li>
+                    <li>毎回カウンセリング</li>
+                    <li>食事管理サポート</li>
+                    <li>LINEサポート無制限</li>
+                </ul>
+            </div>
+            <div class="pricing-card fade-in">
+                <p class="pricing-plan">PREMIUM</p>
+                <p class="pricing-price">79,800<span>円</span></p>
+                <p class="pricing-period">月額（月12回）</p>
+                <ul class="pricing-features">
+                    <li>マンツーマン指導 月12回</li>
+                    <li>毎回カウンセリング</li>
+                    <li>完全食事管理</li>
+                    <li>LINEサポート無制限</li>
+                    <li>体組成測定 毎回</li>
+                </ul>
+            </div>
+        </div>
+        <p class="pricing-note">
+            ※ 全プラン入会金・解約金無料　／　初回無料体験あり（通常9,900円相当）<br>
+            ※ 料金は税込み表示
+        </p>
+    </div>
+</section>
+
+<!-- ====== TESTIMONIALS ====== -->
+<section id="testimonials">
+    <div class="testimonials-inner">
+        <div class="testimonials-header center fade-in">
+            <span class="section-label">VOICE</span>
+            <h2 class="section-title">お客様の<span class="gold">声</span></h2>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-quote">40代でも本当に変われました。</div>
+                <p class="testimonial-text">40代になってから体重が落ちにくくなっていましたが、K-STYLEに通い始めて3ヶ月で−8kg達成。トレーナーさんが毎回丁寧に教えてくれるので、怪我なく続けられています。</p>
+                <div class="testimonial-profile">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="会員" class="testimonial-avatar">
+                    <div>
+                        <p class="testimonial-name">T.M さん</p>
+                        <p class="testimonial-meta">42歳・会社員 ／ 3ヶ月で −8kg</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-quote">続けられる理由がある。</div>
+                <p class="testimonial-text">完全予約制なので他の人の目を気にせず集中できます。以前は大手ジムに通っていましたが、何をすればいいかわからず結局やめてしまいました。K-STYLEは全然違います。</p>
+                <div class="testimonial-profile">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="会員" class="testimonial-avatar">
+                    <div>
+                        <p class="testimonial-name">K.S さん</p>
+                        <p class="testimonial-meta">35歳・営業職 ／ 体脂肪率 −12%</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-quote">慢性的な腰痛が改善。</div>
+                <p class="testimonial-text">デスクワークで慢性的な腰痛がありましたが、姿勢改善プログラムでほとんど気にならなくなりました。体が変わると仕事のパフォーマンスも上がった気がします。</p>
+                <div class="testimonial-profile">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" alt="会員" class="testimonial-avatar">
+                    <div>
+                        <p class="testimonial-name">R.K さん</p>
+                        <p class="testimonial-meta">38歳・エンジニア ／ 腰痛改善</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FAQ ====== -->
+<section id="faq">
+    <div class="faq-inner">
+        <div class="faq-header center fade-in">
+            <span class="section-label">FAQ</span>
+            <h2 class="section-title">よくある<span class="gold">質問</span></h2>
+        </div>
+
+        <div class="faq-item fade-in">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>運動が全くの初心者でも大丈夫ですか？</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">はい、もちろんです。K-STYLEはむしろ「運動経験ゼロ」の方が多く通われています。マンツーマンで一から丁寧にお教えするので、ご安心ください。</div>
+        </div>
+
+        <div class="faq-item fade-in">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>無料体験はどんな内容ですか？</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">初回無料体験では、①カウンセリング（お悩み・目標のヒアリング）②体組成測定③60分のパーソナルトレーニング体験を行います。入会の強制は一切ありません。</div>
+        </div>
+
+        <div class="faq-item fade-in">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>何ヶ月通えば結果が出ますか？</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">個人差はありますが、多くの方が2〜3ヶ月で目に見える変化を実感されています。週2回ペースを目安にご提案しており、食事サポートと組み合わせることで効果が高まります。</div>
+        </div>
+
+        <div class="faq-item fade-in">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>急なキャンセルはできますか？</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">前日20時までのご連絡で無料でキャンセル・振替が可能です。当日キャンセルは1回分の消費となりますので、なるべく余裕を持ってご連絡ください。</div>
+        </div>
+
+        <div class="faq-item fade-in">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>最低契約期間・解約金はありますか？</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">最低契約期間はなく、月単位でいつでも解約できます。入会金・解約金も一切いただいておりませんのでご安心ください。</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== CTA ====== -->
+<section id="cta">
+    <div class="cta-bg"></div>
+    <div class="cta-overlay"></div>
+    <div class="cta-inner fade-in">
+        <span class="section-label" style="letter-spacing:6px;">FREE TRIAL</span>
+        <h2 class="cta-title">まず、<span class="gold">体験</span>してみてください。</h2>
+        <p class="cta-desc">
+            通常9,900円の体験が、今なら完全無料。<br>
+            入会の強制は一切ありません。<br>
+            まずは気軽に、K-STYLEを体感してください。
+        </p>
+        <a href="#" class="btn-cta">無料体験を申し込む →</a>
+        <p class="cta-note">※ お電話でのご予約も承っています ／ 定員に達し次第、受付終了</p>
+    </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div>
+                <div class="footer-logo">K-STYLE</div>
+                <p class="footer-tagline">
+                    あなただけのトレーニングで、確実に結果を出すパーソナルジム。<br>
+                    30〜40代の「忙しいけど変わりたい」を叶えます。
+                </p>
+            </div>
+            <div>
+                <p class="footer-heading">MENU</p>
+                <ul class="footer-links">
+                    <li><a href="#about">K-STYLEについて</a></li>
+                    <li><a href="#features">選ばれる理由</a></li>
+                    <li><a href="#menu">トレーニングメニュー</a></li>
+                    <li><a href="#pricing">料金プラン</a></li>
+                    <li><a href="#faq">よくある質問</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="footer-heading">INFO</p>
+                <div class="footer-info">
+                    <p><span class="info-label">営業時間</span>9:00〜22:00</p>
+                    <p><span class="info-label">定休日</span>不定休</p>
+                    <p><span class="info-label">予約</span>完全予約制</p>
+                    <p><span class="info-label">TEL</span>00-0000-0000</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 K-STYLE Personal Gym. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // FAQ accordion
+    function toggleFaq(btn) {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+    }
+
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Nav shadow on scroll
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('nav');
+        nav.style.boxShadow = window.scrollY > 40
+            ? '0 4px 30px rgba(0,0,0,0.5)'
+            : 'none';
+    });
+</script>
+</body>
+</html>
